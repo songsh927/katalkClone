@@ -9,7 +9,7 @@ class Setting extends StatelessWidget {
 
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 10,
+        elevation: 1,
         title: Text('설정',style: TextStyle(color: Colors.black),),
         actions:[
           IconButton(

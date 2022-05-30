@@ -8,7 +8,7 @@ class Shop extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 10,
+        elevation: 1,
         title: Text('쇼핑',style: TextStyle(color: Colors.black),),
         actions:[
           IconButton(

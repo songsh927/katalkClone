@@ -8,7 +8,7 @@ class View extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 10,
+        elevation: 1,
         title: Text('뷰',style: TextStyle(color: Colors.black),),
         actions:[
           IconButton(

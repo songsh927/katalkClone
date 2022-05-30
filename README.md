@@ -1,6 +1,6 @@
 # katalk
 
-A new Flutter project.
+카카오톡 클론 프로젝트입니다.
 
 ## Getting Started
 
