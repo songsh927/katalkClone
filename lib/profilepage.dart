@@ -21,7 +21,7 @@ class profilepage extends StatelessWidget {
         alignment: Alignment.center,
         width: double.infinity,
         height: double.infinity,
-        color: Colors.white,
+        color: Colors.blueGrey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,20 +29,32 @@ class profilepage extends StatelessWidget {
           children: [
             Text('사진',style: TextStyle(color: Colors.black),),
             Text('이름'),
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border(
+                  top: BorderSide(color: Colors.white),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(onPressed: (){}, icon: Icon(Icons.chat_bubble,color: Colors.white)),
+                  IconButton(onPressed: (){}, icon: Icon(Icons.call,color: Colors.white,))
+
+                ],
+              ),
+            )
           ],
         ),
-      ),
-      extendBody: true,
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble), label: '1:1채팅'),
-          BottomNavigationBarItem(icon: Icon(Icons.call), label: '통화하기')
-        ],
       ),
     );
   }
 }
+
+
+//BottomNavigationBarItem(icon: Icon(Icons.chat_bubble,color: Colors.white,), label: '1:1채팅'),
+//           BottomNavigationBarItem(icon: Icon(Icons.call,color: Colors.white,), label: '통화하기')
+//
