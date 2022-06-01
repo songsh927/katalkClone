@@ -5,6 +5,25 @@ class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
   var scroll = ScrollController();
 
+  var friendsData = [
+    {
+      'name' : '김김김',
+      'picture' : '',
+    },
+    {
+      'name' : '나나나',
+      'picture' : '',
+    },
+    {
+      'name' : '박박박',
+      'picture' : '',
+    },
+    {
+      'name' : '이이이',
+      'picture' : '',
+    }
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +46,7 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(itemCount: 5, controller: scroll, itemBuilder: (c, i){
+      body: ListView.builder(itemCount: friendsData.length+1, controller: scroll, itemBuilder: (c, i){
         return GestureDetector(
           onTap: (){
             Navigator.push(
@@ -51,7 +70,7 @@ class Home extends StatelessWidget {
                   height: i == 0 ? 60 : 40,
                   width: i == 0 ? 60 : 40,
                 ),
-                Text(i == 0 ? '사용자': '친구')
+                Text(i == 0 ? '사용자': friendsData[i-1]['name'].toString())
               ],
             ),
           ),

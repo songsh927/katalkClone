@@ -11,12 +11,6 @@ class Setting extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 1,
         title: Text('설정',style: TextStyle(color: Colors.black),),
-        actions:[
-          IconButton(
-            icon: Icon(Icons.search,color: Colors.black,),
-            onPressed: () {},
-          ),
-        ],
       ),
     );
   }

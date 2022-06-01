@@ -9,7 +9,10 @@ class profilepage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(onPressed: (){Navigator.pop(context);},icon: Icon(Icons.close,color: Colors.black,),),
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+          },
+          icon: Icon(Icons.close,color: Colors.black,),),
         actions: [
           IconButton(onPressed: (){}, icon: Icon(Icons.card_giftcard,color: Colors.black,)),
           IconButton(onPressed: (){}, icon: Icon(Icons.attach_money,color: Colors.black,)),
@@ -23,18 +26,26 @@ class profilepage extends StatelessWidget {
         height: double.infinity,
         color: Colors.blueGrey,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
 
           children: [
-            Text('사진',style: TextStyle(color: Colors.black),),
-            Text('이름'),
             Container(
+              width: 100,
+              height: 100,
+              margin: EdgeInsets.all(5),
+              color: Colors.white,
+              child: Text('사진',style: TextStyle(color: Colors.black,),)),
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 5, 0, 30),
+              child: Text('이름',style: TextStyle(fontSize: 25),)
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 30, 0, 30),
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.transparent,
                 border: Border(
-                  top: BorderSide(color: Colors.white),
+                  top: BorderSide(color: Colors.white, width: 1),
                 ),
               ),
               child: Row(
@@ -54,7 +65,3 @@ class profilepage extends StatelessWidget {
   }
 }
 
-
-//BottomNavigationBarItem(icon: Icon(Icons.chat_bubble,color: Colors.white,), label: '1:1채팅'),
-//           BottomNavigationBarItem(icon: Icon(Icons.call,color: Colors.white,), label: '통화하기')
-//
