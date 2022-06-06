@@ -5,6 +5,11 @@ class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
   var scroll = ScrollController();
 
+  var userData = {
+    'name' : '사용자',
+    'picture' : '',
+  };
+
   var friendsData = [
     {
       'name' : '김김김',
@@ -70,7 +75,9 @@ class Home extends StatelessWidget {
                   height: i == 0 ? 60 : 40,
                   width: i == 0 ? 60 : 40,
                 ),
-                Text(i == 0 ? '사용자': friendsData[i-1]['name'].toString())
+                Text(i == 0 ?
+                 userData['name'].toString()
+                 :friendsData[i-1]['name'].toString())
               ],
             ),
           ),

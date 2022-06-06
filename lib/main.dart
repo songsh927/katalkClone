@@ -5,6 +5,9 @@ import 'view.dart';
 import 'shop.dart';
 import 'setting.dart';
 
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 void main() {
   runApp(MaterialApp(
     home: MyApp()
@@ -72,9 +75,19 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+/*
+  친구 목록 => provider
 
+  최근 채팅방 목록 => shared preferences
+  최근 채팅 => shared preferences
+  사용자의 로그인 => shared preferences
 
-
+  ====DB====
+  - 사용자 정보 테이블
+  - 사용자 친구 테이블
+  - 채팅방 정보 테이블
+  - 채팅방 내용 테이블
+ */
 
 
 

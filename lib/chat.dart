@@ -72,6 +72,7 @@ class Chat extends StatelessWidget {
                 ),
                 Column(//채팅방 이름, 내용
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(roomData[i]['name'].toString()),
                     Text(roomData[i]['text'].toString()),
