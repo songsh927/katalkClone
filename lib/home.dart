@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:katalk/profilepage.dart';
+import 'addfriend.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
@@ -43,7 +44,11 @@ class Home extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.person_add_alt_1_outlined,color: Colors.black,),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (c) => addfriend()));
+            },
           ),
           IconButton(
             icon: Icon(Icons.music_note_outlined,color: Colors.black,),

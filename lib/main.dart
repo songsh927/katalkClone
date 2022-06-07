@@ -76,17 +76,17 @@ class _MyAppState extends State<MyApp> {
 }
 
 /*
-  친구 목록 => provider
+  친구 목록 => shared preferences => provider
 
-  최근 채팅방 목록 => shared preferences
-  최근 채팅 => shared preferences
+  채팅방 목록 => shared preferences
+  채팅 => shared preferences
   사용자의 로그인 => shared preferences
 
   ====DB====
   - 사용자 정보 테이블
   - 사용자 친구 테이블
   - 채팅방 정보 테이블
-  - 채팅방 내용 테이블
+  - 채팅 테이블
  */
 
 
