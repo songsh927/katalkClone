@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:katalk/chattingpage.dart';
+import 'addchatroom.dart';
 
 class Chat extends StatelessWidget {
   Chat({Key? key}) : super(key: key);
@@ -37,7 +38,11 @@ class Chat extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.mark_chat_read_outlined,color: Colors.black,),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (c) => AddChattingRoom()));
+            },
           ),
           IconButton(
             icon: Icon(Icons.music_note_outlined,color: Colors.black,),

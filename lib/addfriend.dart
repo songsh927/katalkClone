@@ -72,6 +72,7 @@ class addfriend extends StatelessWidget {
                 OutlinedButton(
                   onPressed: (){
                     //서버로 id와 전화번호 보내서 응답코드받기
+                    Navigator.pop(context);
                   },
                   style: OutlinedButton.styleFrom(
                     fixedSize: Size(100, 50),

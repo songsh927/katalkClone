@@ -5,14 +5,45 @@ import 'view.dart';
 import 'shop.dart';
 import 'setting.dart';
 
+import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: MyApp()
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (c) => UserData()),
+        ],
+          child: MaterialApp(
+            home: MyApp()
+          )
   ));
 }
+
+class UserData with ChangeNotifier{
+  var userInfo = {
+    'name' : '사용자',
+    'picture' : '',
+    'isLogin' : false,
+  };
+
+  var friendList = [
+    {
+      'name' : '김김김',
+      'picture' : '',
+    },
+    {
+      'name' : '나나나',
+      'picture' : '',
+    },
+    {
+      'name' : '박박박',
+      'picture' : '',
+    },
+  ];
+}
+
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
