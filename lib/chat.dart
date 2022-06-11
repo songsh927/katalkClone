@@ -1,28 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:katalk/chattingpage.dart';
+import 'package:katalk/main.dart';
+import 'package:provider/provider.dart';
 import 'addchatroom.dart';
 
 class Chat extends StatelessWidget {
   Chat({Key? key}) : super(key: key);
   var scroll = ScrollController();
 
-  var roomData = [
-    {
-      'roomId' : '1',
-      'name' : '홍길동',
-      'text' : 'asdf'
-    },
-    {
-      'roomId' : '2',
-      'name' : '손흥민',
-      'text' : '득점왕 ㅊㅊ'
-    },
-    {
-      'roomId' : '3',
-      'name' : '박지성',
-      'text' : '지송빠레'
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +35,7 @@ class Chat extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(itemCount: roomData.length ,controller: scroll ,itemBuilder: (c, i){
+      body: ListView.builder(itemCount: context.watch<RoomData>().chattingRoom.length ,controller: scroll ,itemBuilder: (c, i){
         return GestureDetector(
           onTap: (){
             Navigator.push(
@@ -79,8 +64,8 @@ class Chat extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(roomData[i]['name'].toString()),
-                    Text(roomData[i]['text'].toString()),
+                    Text(context.watch<RoomData>().chattingRoom[i]['name'].toString()),
+                    Text(context.watch<RoomData>().chattingRoom[i]['text'].toString()),
                   ],
                 )
               ],

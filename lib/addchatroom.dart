@@ -11,6 +11,14 @@ class AddChattingRoom extends StatefulWidget {
 
 class _AddChattingRoomState extends State<AddChattingRoom> {
   var scroll = ScrollController();
+  late List<bool> _isSelected;
+  var count = 0;
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    _isSelected = List<bool>.filled(context.watch<UserData>().friendList.length, false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +32,14 @@ class _AddChattingRoomState extends State<AddChattingRoom> {
           icon: Icon(Icons.close,color: Colors.black,),),
         title: Text('대화상대 선택',style: TextStyle(color: Colors.black),),
         actions: [
-          TextButton(onPressed: (){
-            Navigator.pop(context);
-          },
-          child: Text('확인',style: TextStyle(fontSize: 14),))
+          TextButton(
+              onPressed: (){
+                if(count == 0){
+                  Navigator.pop(context);
+                }
+              },
+              child: Text('확인',style: TextStyle(fontSize: 14),)
+          )
         ],
       ),
       body: GestureDetector(
@@ -45,6 +57,10 @@ class _AddChattingRoomState extends State<AddChattingRoom> {
                   contentPadding: EdgeInsets.all(8),
                   hintText: '이름, 전화번호 검색',
                   enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5),
                     borderSide: BorderSide(color: Colors.black),
                   )
@@ -69,7 +85,16 @@ class _AddChattingRoomState extends State<AddChattingRoom> {
                         height: 40,
                         width: 40,
                       ),
-                      Text(context.watch<UserData>().friendList[i]['name'].toString())
+                      Text(context.watch<UserData>().friendList[i]['name'].toString()),
+                      Checkbox(
+                        value: _isSelected[i],
+                        onChanged: (value){
+                          setState(() {
+                            count++;
+                            _isSelected[i] = value!;
+                          });
+                          },
+                      ),
                     ],
                   ),
                 );

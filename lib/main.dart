@@ -14,6 +14,7 @@ void main() {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (c) => UserData()),
+          ChangeNotifierProvider(create: (c) => RoomData()),
         ],
           child: MaterialApp(
             home: MyApp()
@@ -30,18 +31,64 @@ class UserData with ChangeNotifier{
 
   var friendList = [
     {
-      'name' : '김김김',
+      'friendId' : 1,
+      'name' : '손흥민',
       'picture' : '',
     },
     {
-      'name' : '나나나',
+      'friendId' : 2,
+      'name' : '박지성',
       'picture' : '',
     },
     {
-      'name' : '박박박',
+      'friendId' : 3,
+      'name' : '홍길동',
       'picture' : '',
     },
   ];
+
+  searchFriend(){
+    //친구찾기
+  }
+
+  addFriendList(){
+    //friendList에 추가
+  }
+
+  delFriend(){
+    //친구삭제
+  }
+}
+
+class RoomData with ChangeNotifier{
+
+
+  var chattingRoom = [
+    {
+      'roomId' : '1',
+      'name' : '홍길동',
+      'text' : 'asdf'
+    },
+    {
+      'roomId' : '2',
+      'name' : '손흥민',
+      'text' : '득점왕 ㅊㅊ'
+    },
+    {
+      'roomId' : '3',
+      'name' : '박지성',
+      'text' : '지송빠레'
+    },
+  ];
+
+  addRoom(){
+    //채팅방 생성
+  }
+
+  delRoom(){
+    //채팅방 삭제
+  }
+
 }
 
 
