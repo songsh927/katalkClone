@@ -40,7 +40,7 @@ class Chat extends StatelessWidget {
           onTap: (){
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (c) => chattingpage()),
+                MaterialPageRoute(builder: (c) => ChattingPage()),
             );
           },
           child: Container(

@@ -8,13 +8,6 @@ class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
   var scroll = ScrollController();
 
-  var userData = {
-    'name' : '사용자',
-    'picture' : '',
-  };
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +25,7 @@ class Home extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (c) => addfriend()));
+                    MaterialPageRoute(builder: (c) => AddFriend()));
               },
             ),
             IconButton(

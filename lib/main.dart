@@ -26,23 +26,26 @@ class UserData with ChangeNotifier{
   var userInfo = {
     'name' : '사용자',
     'picture' : '',
-    'isLogin' : false,
+    'isLogin' : true,
   };
 
   var friendList = [
     {
       'friendId' : 1,
       'name' : '손흥민',
+      'phone' : '01012341234',
       'picture' : '',
     },
     {
       'friendId' : 2,
       'name' : '박지성',
+      'phone' : '01012341234',
       'picture' : '',
     },
     {
       'friendId' : 3,
       'name' : '홍길동',
+      'phone' : '01012341234',
       'picture' : '',
     },
   ];

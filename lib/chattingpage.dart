@@ -3,14 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class chattingpage extends StatefulWidget {
-  chattingpage({Key? key}) : super(key: key);
+class ChattingPage extends StatefulWidget {
+  ChattingPage({Key? key}) : super(key: key);
 
   @override
-  State<chattingpage> createState() => _chattingpageState();
+  State<ChattingPage> createState() => _chattingpageState();
 }
 
-class _chattingpageState extends State<chattingpage> {
+class _chattingpageState extends State<ChattingPage> {
   var textController = TextEditingController();
   var scroll = ScrollController();
   DateTime now = DateTime.now();

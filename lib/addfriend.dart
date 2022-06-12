@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class addfriend extends StatelessWidget {
-  addfriend({Key? key}) : super(key: key);
+class AddFriend extends StatelessWidget {
+  AddFriend({Key? key}) : super(key: key);
 
   var phoneController = TextEditingController();
   var nameController = TextEditingController();
