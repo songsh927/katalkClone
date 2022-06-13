@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:katalk/login.dart';
 import 'home.dart';
 import 'chat.dart';
 import 'view.dart';
@@ -17,7 +18,7 @@ void main() {
           ChangeNotifierProvider(create: (c) => RoomData()),
         ],
           child: MaterialApp(
-            home: MyApp()
+            home: UserData().userInfo['isLogin'] == false ? LoginPage() : MyApp()
           )
   ));
 }
@@ -26,8 +27,13 @@ class UserData with ChangeNotifier{
   var userInfo = {
     'name' : '사용자',
     'picture' : '',
-    'isLogin' : true,
+    'isLogin' : false,
   };
+
+  login() async {
+    userInfo['isLogin'] = true;
+    return true;
+  }
 
   var friendList = [
     {
@@ -68,24 +74,36 @@ class RoomData with ChangeNotifier{
 
   var chattingRoom = [
     {
-      'roomId' : '1',
+      'roomId' : 1,
       'name' : '홍길동',
       'text' : 'asdf'
     },
     {
-      'roomId' : '2',
+      'roomId' : 2,
       'name' : '손흥민',
       'text' : '득점왕 ㅊㅊ'
     },
     {
-      'roomId' : '3',
+      'roomId' : 3,
       'name' : '박지성',
       'text' : '지송빠레'
     },
   ];
 
-  addRoom(){
-    //채팅방 생성
+  addRoom(friendId){
+    var name;
+    for(int i = 0; i < UserData().friendList.length ; i++){
+      if(UserData().friendList[i]['friendId'] == friendId){
+        name = UserData().friendList[i]['name'];
+      }
+    }
+
+    var addingRoomData = {
+      'roomId' : 1,
+      'name' : name.toString(),
+    };
+    chattingRoom.add(addingRoomData);
+    notifyListeners();
   }
 
   delRoom(){
@@ -108,51 +126,53 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
+      return Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
 
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        elevation: 10,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          elevation: 10,
 
-        onTap: (i){
-          setState(() {
-            tab = i;
-          });
-        },
+          onTap: (i){
+            setState(() {
+              tab = i;
+            });
+          },
 
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(tab == 0 ? Icons.person : Icons.person_outline, color: Colors.black38),
-            label: 'Home'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(tab == 1 ? Icons.chat_bubble : Icons.chat_bubble_outline, color: Colors.black38),
-              label: 'Chat'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(tab == 2 ? Icons.remove_red_eye_rounded : Icons.remove_red_eye_outlined, color: Colors.black38),
-              label: 'View'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(tab == 3 ? Icons.shop : Icons.shop_outlined, color: Colors.black38),
-              label: 'Shop'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(tab == 4 ? Icons.settings : Icons.settings_outlined, color: Colors.black38),
-              label: 'Setting'
-          )
-        ],
-      ),
-      body: [
-        Home(),
-        Chat(),
-        View(),
-        Shop(),
-        Setting(),
-      ][tab],
-    );
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(tab == 0 ? Icons.person : Icons.person_outline, color: Colors.black38),
+                label: 'Home'
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(tab == 1 ? Icons.chat_bubble : Icons.chat_bubble_outline, color: Colors.black38),
+                label: 'Chat'
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(tab == 2 ? Icons.remove_red_eye_rounded : Icons.remove_red_eye_outlined, color: Colors.black38),
+                label: 'View'
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(tab == 3 ? Icons.shop : Icons.shop_outlined, color: Colors.black38),
+                label: 'Shop'
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(tab == 4 ? Icons.settings : Icons.settings_outlined, color: Colors.black38),
+                label: 'Setting'
+            )
+          ],
+        ),
+        body: [
+          Home(),
+          Chat(),
+          View(),
+          Shop(),
+          Setting(),
+        ][tab],
+      );
+
+
   }
 }
 

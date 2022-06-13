@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:katalk/main.dart';
 import 'package:provider/provider.dart';
 
+import 'chattingpage.dart';
+
 class AddChattingRoom extends StatefulWidget {
   AddChattingRoom({Key? key}) : super(key: key);
 
@@ -13,6 +15,7 @@ class _AddChattingRoomState extends State<AddChattingRoom> {
   var scroll = ScrollController();
   late List<bool> _isSelected;
   var count = 0;
+  var index;
 
   @override
   void didChangeDependencies(){
@@ -36,6 +39,10 @@ class _AddChattingRoomState extends State<AddChattingRoom> {
               onPressed: (){
                 if(count == 0){
                   Navigator.pop(context);
+                }else if(count == 1){
+                  Navigator.pop(context);
+                  context.read<RoomData>().addRoom(context.read<UserData>().friendList[index]['friendId']);
+                  Navigator.push(context, MaterialPageRoute(builder: (c) => ChattingPage()));
                 }
               },
               child: Text('확인',style: TextStyle(fontSize: 14),)
@@ -90,8 +97,14 @@ class _AddChattingRoomState extends State<AddChattingRoom> {
                         value: _isSelected[i],
                         onChanged: (value){
                           setState(() {
-                            count++;
-                            _isSelected[i] = value!;
+                            index = i;
+                            if(_isSelected[i] == false){
+                              _isSelected[i] = value!;
+                              count++;
+                            }else{
+                              _isSelected[i] = value!;
+                              count--;
+                            }
                           });
                           },
                       ),

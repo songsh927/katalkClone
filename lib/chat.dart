@@ -4,10 +4,15 @@ import 'package:katalk/main.dart';
 import 'package:provider/provider.dart';
 import 'addchatroom.dart';
 
-class Chat extends StatelessWidget {
+class Chat extends StatefulWidget {
   Chat({Key? key}) : super(key: key);
-  var scroll = ScrollController();
 
+  @override
+  State<Chat> createState() => _ChatState();
+}
+
+class _ChatState extends State<Chat> {
+  var scroll = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +70,8 @@ class Chat extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(context.watch<RoomData>().chattingRoom[i]['name'].toString()),
-                    Text(context.watch<RoomData>().chattingRoom[i]['text'].toString()),
+                    Text(context.watch<RoomData>().chattingRoom[i]['text'] != null ?
+                    context.watch<RoomData>().chattingRoom[i]['text'].toString() : ''),
                   ],
                 )
               ],
