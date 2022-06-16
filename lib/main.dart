@@ -15,7 +15,6 @@ void main() {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (c) => UserData()),
-          ChangeNotifierProvider(create: (c) => RoomData()),
         ],
           child: MaterialApp(
             home: UserData().userInfo['isLogin'] == false ? LoginPage() : MyApp()
@@ -23,9 +22,17 @@ void main() {
   ));
 }
 
-class UserData with ChangeNotifier{
+class UserData extends ChangeNotifier{
+
+  join(name, phone, id, password){
+    //서버로 보내서 회원가입 로직실행
+  }
+
   var userInfo = {
+    'id': 0,
     'name' : '사용자',
+    'phone' : '01098765432',
+    'myId' : 'jjamma',
     'picture' : '',
     'isLogin' : false,
   };
@@ -37,21 +44,24 @@ class UserData with ChangeNotifier{
 
   var friendList = [
     {
-      'friendId' : 1,
+      'id' : 1,
       'name' : '손흥민',
       'phone' : '01012341234',
+      'friendId' : 'sonNo.7',
       'picture' : '',
     },
     {
-      'friendId' : 2,
+      'id' : 2,
       'name' : '박지성',
       'phone' : '01012341234',
+      'friendId' : 'jspark',
       'picture' : '',
     },
     {
-      'friendId' : 3,
+      'id' : 3,
       'name' : '홍길동',
       'phone' : '01012341234',
+      'friendId' : 'honggildong123',
       'picture' : '',
     },
   ];
@@ -60,58 +70,72 @@ class UserData with ChangeNotifier{
     //친구찾기
   }
 
-  addFriendList(){
-    //friendList에 추가
+  addFriendList(phoneNum, name, id, [profilePic]) {
+    //서버로 id와 전화번호 보내서 응답코드받기
+
+    var friendData = {
+      'id' : friendList.length + 1,
+      'name' : name.toString(),
+      'phone' : phoneNum.toString(),
+      'friendId' : id.toString(),
+      'picture' : profilePic.toString(),
+    };
+
+    friendList.add(friendData);
+    notifyListeners();
   }
 
   delFriend(){
     //친구삭제
   }
-}
-
-class RoomData with ChangeNotifier{
-
 
   var chattingRoom = [
     {
       'roomId' : 1,
       'name' : '홍길동',
-      'text' : 'asdf'
+      'text' : ''
     },
     {
       'roomId' : 2,
       'name' : '손흥민',
-      'text' : '득점왕 ㅊㅊ'
+      'text' : 'ㅁㄴㅇㄹ'
     },
     {
       'roomId' : 3,
       'name' : '박지성',
-      'text' : '지송빠레'
+      'text' : ''
     },
   ];
 
-  addRoom(friendId){
+  addRoom(id){
     var name;
-    for(int i = 0; i < UserData().friendList.length ; i++){
-      if(UserData().friendList[i]['friendId'] == friendId){
-        name = UserData().friendList[i]['name'];
+
+    for(int i = 0; i < friendList.length ; i++){
+      if(friendList[i]['id'].toString() == id.toString()){
+        name = friendList[i]['name'];
       }
     }
 
     var addingRoomData = {
-      'roomId' : 1,
+      'roomId' : chattingRoom.length + 1,
       'name' : name.toString(),
     };
     chattingRoom.add(addingRoomData);
     notifyListeners();
   }
 
-  delRoom(){
+  delRoom(roomId) {
     //채팅방 삭제
+    print(roomId);
+    for(int i = 0 ; i < chattingRoom.length ; i++){
+      if(roomId == chattingRoom[i]['roomId']){
+        chattingRoom.removeAt(i);
+      }
+    }
+    notifyListeners();
   }
 
 }
-
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

@@ -31,7 +31,8 @@ class _ChatState extends State<Chat> {
             onPressed: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (c) => AddChattingRoom()));
+                  MaterialPageRoute(builder: (c) => AddChattingRoom())
+              );
             },
           ),
           IconButton(
@@ -40,43 +41,50 @@ class _ChatState extends State<Chat> {
           ),
         ],
       ),
-      body: ListView.builder(itemCount: context.watch<RoomData>().chattingRoom.length ,controller: scroll ,itemBuilder: (c, i){
-        return GestureDetector(
-          onTap: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (c) => ChattingPage()),
-            );
+      body: ListView.builder(itemCount: context.watch<UserData>().chattingRoom.length ,controller: scroll ,itemBuilder: (c, i){
+        return Dismissible(
+          key: Key(context.read<UserData>().chattingRoom[i]['roomId'].toString()),
+          onDismissed: (direction){
+            context.read<UserData>().delRoom(context.read<UserData>().chattingRoom[i]['roomId']);
           },
-          child: Container(
-            color: Colors.white,
-            margin: EdgeInsets.fromLTRB(2, 3, 2, 3),
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-            width: double.infinity,
-            height: 70,
-            child: Row(
-              children: [
-                Container(//사진
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.all(Radius.circular(13))
-                  ),
-                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  width: 50,
-                  height: 50,
-                ),
-                Column(//채팅방 이름, 내용
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          direction: DismissDirection.endToStart,
+          child: GestureDetector(
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (c) => ChattingPage()),
+                );
+              },
+              child: Container(
+                color: Colors.white,
+                margin: EdgeInsets.fromLTRB(2, 3, 2, 3),
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                width: double.infinity,
+                height: 70,
+                child: Row(
                   children: [
-                    Text(context.watch<RoomData>().chattingRoom[i]['name'].toString()),
-                    Text(context.watch<RoomData>().chattingRoom[i]['text'] != null ?
-                    context.watch<RoomData>().chattingRoom[i]['text'].toString() : ''),
+                    Container(//사진
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.all(Radius.circular(13))
+                      ),
+                      margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      width: 50,
+                      height: 50,
+                    ),
+                    Column(//채팅방 이름, 내용
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(context.watch<UserData>().chattingRoom[i]['name'].toString()),
+                        Text(context.watch<UserData>().chattingRoom[i]['text'] != null ?
+                        context.watch<UserData>().chattingRoom[i]['text'].toString() : ''),
+                      ],
+                    )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
-          ),
         );
       }),
     );

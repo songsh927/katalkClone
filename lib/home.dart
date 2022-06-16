@@ -11,31 +11,31 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 1,
-          title: Text('친구',style: TextStyle(color: Colors.black),),
-          actions:[
-            IconButton(
-              icon: Icon(Icons.search,color: Colors.black,),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(Icons.person_add_alt_1_outlined,color: Colors.black,),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (c) => AddFriend()));
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.music_note_outlined,color: Colors.black,),
-              onPressed: () {},
-            ),
-          ],
-        ),
-        body: ListView.builder(itemCount: context.watch<UserData>().friendList.length+1, controller: scroll, itemBuilder: (c, i){
-          return GestureDetector(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 1,
+        title: Text('친구',style: TextStyle(color: Colors.black),),
+        actions:[
+          IconButton(
+            icon: Icon(Icons.search,color: Colors.black,),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.person_add_alt_1_outlined,color: Colors.black,),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (c) => AddFriend()));
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.music_note_outlined,color: Colors.black,),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: ListView.builder(itemCount: context.watch<UserData>().friendList.length+1, controller: scroll, itemBuilder: (c, i){
+        return GestureDetector(
             onTap: (){
               Navigator.push(
                 context,
@@ -60,12 +60,12 @@ class Home extends StatelessWidget {
                   ),
                   Text(i == 0 ?
                   context.watch<UserData>().userInfo['name'].toString()
-                   :context.watch<UserData>().friendList[i-1]['name'].toString())
+                      :context.watch<UserData>().friendList[i-1]['name'].toString())
                 ],
               ),
             ),
           );
-        }),
-      );
+      }),
+    );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:katalk/main.dart';
+import 'package:provider/provider.dart';
 
 class AddFriend extends StatelessWidget {
   AddFriend({Key? key}) : super(key: key);
@@ -71,7 +73,9 @@ class AddFriend extends StatelessWidget {
                 ),
                 OutlinedButton(
                   onPressed: (){
-                    //서버로 id와 전화번호 보내서 응답코드받기
+
+                    context.read<UserData>().addFriendList(phoneController.text, nameController.text, idController.text);
+
                     Navigator.pop(context);
                   },
                   style: OutlinedButton.styleFrom(

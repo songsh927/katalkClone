@@ -41,7 +41,7 @@ class _AddChattingRoomState extends State<AddChattingRoom> {
                   Navigator.pop(context);
                 }else if(count == 1){
                   Navigator.pop(context);
-                  context.read<RoomData>().addRoom(context.read<UserData>().friendList[index]['friendId']);
+                  context.read<UserData>().addRoom(context.read<UserData>().friendList[index]['id']);
                   Navigator.push(context, MaterialPageRoute(builder: (c) => ChattingPage()));
                 }
               },
