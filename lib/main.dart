@@ -87,25 +87,38 @@ class UserData extends ChangeNotifier{
 
   delFriend(){
     //친구삭제
+    print(chattingRoom[0]['text']);
   }
 
-  var chattingRoom = [
+  List<Map<String, dynamic>>  chattingRoom = [
     {
       'roomId' : 1,
-      'name' : '홍길동',
-      'text' : ''
+      'RoomName' : '홍길동',
+      'text' : [
+        {
+          'name': '손흥민',
+          'text': 'asdf',
+          'time': DateTime.now()
+        },
+        {
+          'name': '황의조',
+          'text': 'ㅁㄴㅇㄹ',
+          'time': DateTime.now()
+        }
+      ]
     },
     {
       'roomId' : 2,
       'name' : '손흥민',
-      'text' : 'ㅁㄴㅇㄹ'
     },
     {
       'roomId' : 3,
       'name' : '박지성',
-      'text' : ''
     },
   ];
+
+
+
 
   addRoom(id){
     var name;

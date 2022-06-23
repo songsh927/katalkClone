@@ -18,7 +18,9 @@ class Home extends StatelessWidget {
         actions:[
           IconButton(
             icon: Icon(Icons.search,color: Colors.black,),
-            onPressed: () {},
+            onPressed: () {
+              context.read<UserData>().delFriend();
+            },
           ),
           IconButton(
             icon: Icon(Icons.person_add_alt_1_outlined,color: Colors.black,),
