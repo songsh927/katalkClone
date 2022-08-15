@@ -76,9 +76,9 @@ class _ChatState extends State<Chat> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(context.watch<UserData>().chattingRoom[i]['name'].toString()),
+                        Text(context.watch<UserData>().chattingRoom[i]['roomName'].toString()),
                         Text(context.watch<UserData>().chattingRoom[i]['text'] != null ?
-                        context.watch<UserData>().chattingRoom[i]['text'].toString() : ''),
+                        context.watch<UserData>().chattingRoom[i]['text'][0]['text'].toString() : ''),
                       ],
                     )
                   ],

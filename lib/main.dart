@@ -93,7 +93,7 @@ class UserData extends ChangeNotifier{
   List<Map<String, dynamic>>  chattingRoom = [
     {
       'roomId' : 1,
-      'RoomName' : '홍길동',
+      'roomName' : '홍길동',
       'text' : [
         {
           'name': '손흥민',
@@ -109,11 +109,13 @@ class UserData extends ChangeNotifier{
     },
     {
       'roomId' : 2,
-      'name' : '손흥민',
+      'roomName' : '손흥민',
+      'text' : []
     },
     {
       'roomId' : 3,
-      'name' : '박지성',
+      'roomName' : '박지성',
+      'text' : []
     },
   ];
 
