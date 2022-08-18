@@ -60,7 +60,7 @@ class LoginPage extends StatelessWidget {
                       children: [
                         OutlinedButton(
                           onPressed: ()async{
-                            if(await context.read<UserData>().login()){
+                            if(await context.read<UserData>().login(idController.text,pwController.text)){
                               Navigator.push(context, MaterialPageRoute(builder: (c)=> MyApp()));
                             }
                           },

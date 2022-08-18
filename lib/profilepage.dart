@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:katalk/main.dart';
+import 'package:provider/provider.dart';
 
 class profilepage extends StatelessWidget {
-  const profilepage({Key? key}) : super(key: key);
+  const profilepage({Key? key, this.friendId}) : super(key: key);
 
+  final friendId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +41,10 @@ class profilepage extends StatelessWidget {
               child: Text('사진',style: TextStyle(color: Colors.black,),)),
             Container(
               margin: EdgeInsets.fromLTRB(0, 5, 0, 30),
-              child: Text('이름',style: TextStyle(fontSize: 25),)
+              child: Text( friendId == 0 ?
+                context.read<UserData>().userInfo['name'].toString()
+                :context.read<UserData>().friendList[friendId-1]['name'].toString(),
+                style: TextStyle(fontSize: 25),)
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 30, 0, 30),

@@ -42,7 +42,7 @@ class _AddChattingRoomState extends State<AddChattingRoom> {
                 }else if(count == 1){
                   Navigator.pop(context);
                   context.read<UserData>().addRoom(context.read<UserData>().friendList[index]['id']);
-                  Navigator.push(context, MaterialPageRoute(builder: (c) => ChattingPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (c) => ChattingPage(roomId: context.read<UserData>().chattingRoom.length,)));
                 }
               },
               child: Text('확인',style: TextStyle(fontSize: 14),)

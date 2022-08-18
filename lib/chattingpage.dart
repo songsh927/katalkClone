@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:katalk/main.dart';
+import 'package:provider/provider.dart';
 
 class ChattingPage extends StatefulWidget {
-  ChattingPage({Key? key}) : super(key: key);
+  ChattingPage({Key? key, this.roomId}) : super(key: key);
 
+  final roomId;
   @override
   State<ChattingPage> createState() => _chattingpageState();
 }
@@ -52,14 +55,14 @@ class _chattingpageState extends State<ChattingPage> {
                 flex: 9,
                 fit: FlexFit.tight,
                 child: ListView.builder(
-                      itemCount: message.length ,
+                      itemCount: context.read<UserData>().chattingRoom[widget.roomId-1]['text'].length,//message.length ,
                       controller: scroll ,
                       itemBuilder: (c, i){
                         return Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(DateFormat.Hm().format(now), style: TextStyle(fontSize: 12),),
+                              Text(context.read<UserData>().chattingRoom[widget.roomId-1]['text'][i]['time'].toString(), style: TextStyle(fontSize: 12),),
                               Container(
                                 decoration: BoxDecoration(
                                   color: Colors.amber,
@@ -68,7 +71,7 @@ class _chattingpageState extends State<ChattingPage> {
                                 height: 40,
                                 margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
                                 padding: EdgeInsets.all(10),
-                                child: Text(message[i]),
+                                child: Text(context.read<UserData>().chattingRoom[widget.roomId-1]['text'][i]['text'].toString()),
                               )
                             ],
                           );
@@ -114,6 +117,12 @@ class _chattingpageState extends State<ChattingPage> {
                                           setState(() {
                                             message.add(textController.text);
                                           });
+                                          context.read<UserData>().chattingRoom[widget.roomId-1]['text']
+                                              .add({
+                                            'name':context.read<UserData>().userInfo['name'],
+                                            'text':textController.text,
+                                            'time': DateFormat.Hm().format(now)
+                                              });
                                           textController.clear();
                                         }
                                       },

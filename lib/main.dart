@@ -37,7 +37,7 @@ class UserData extends ChangeNotifier{
     'isLogin' : false,
   };
 
-  login() async {
+  login(id, password) async {
     userInfo['isLogin'] = true;
     return true;
   }
@@ -87,25 +87,21 @@ class UserData extends ChangeNotifier{
 
   delFriend(){
     //친구삭제
-    print(chattingRoom[0]['text']);
+    print(chattingRoom[1]['text'].length);
   }
+  /*
+  {
+          'name': '손흥민',
+          'text': 'asdf',
+          'time': DateTime.now()
+        }
+   */
 
   List<Map<String, dynamic>>  chattingRoom = [
     {
       'roomId' : 1,
       'roomName' : '홍길동',
-      'text' : [
-        {
-          'name': '손흥민',
-          'text': 'asdf',
-          'time': DateTime.now()
-        },
-        {
-          'name': '황의조',
-          'text': 'ㅁㄴㅇㄹ',
-          'time': DateTime.now()
-        }
-      ]
+      'text' : []
     },
     {
       'roomId' : 2,
@@ -123,17 +119,20 @@ class UserData extends ChangeNotifier{
 
 
   addRoom(id){
+    //채팅방 중복검사 필수
     var name;
 
     for(int i = 0; i < friendList.length ; i++){
-      if(friendList[i]['id'].toString() == id.toString()){
+      if(friendList[i]['id'] == id){
         name = friendList[i]['name'];
+        print(name);
       }
     }
 
     var addingRoomData = {
       'roomId' : chattingRoom.length + 1,
-      'name' : name.toString(),
+      'roomName' : name.toString(),
+      'text' : []
     };
     chattingRoom.add(addingRoomData);
     notifyListeners();

@@ -52,7 +52,7 @@ class _ChatState extends State<Chat> {
               onTap: (){
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (c) => ChattingPage()),
+                    MaterialPageRoute(builder: (c) => ChattingPage(roomId : context.watch<UserData>().chattingRoom[i]['roomId'])),
                 );
               },
               child: Container(
@@ -77,7 +77,7 @@ class _ChatState extends State<Chat> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(context.watch<UserData>().chattingRoom[i]['roomName'].toString()),
-                        Text(context.watch<UserData>().chattingRoom[i]['text'] != null ?
+                        Text(context.watch<UserData>().chattingRoom[i]['text'].length != 0 ?
                         context.watch<UserData>().chattingRoom[i]['text'][0]['text'].toString() : ''),
                       ],
                     )

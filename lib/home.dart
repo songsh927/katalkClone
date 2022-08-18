@@ -41,7 +41,7 @@ class Home extends StatelessWidget {
             onTap: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (c) => profilepage()),
+                MaterialPageRoute(builder: (c) => profilepage(friendId : i)),
               );
             },
             child: Container(
