@@ -16,8 +16,6 @@ class _chattingpageState extends State<ChattingPage> {
   var scroll = ScrollController();
   DateTime now = DateTime.now();
 
-  var message = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +23,9 @@ class _chattingpageState extends State<ChattingPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('채팅',style: TextStyle(color: Colors.black),),
-        leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back_ios,color: Colors.black,)),
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+          }, icon: Icon(Icons.arrow_back_ios,color: Colors.black,)),
         actions: [
           IconButton(onPressed: (){
 
@@ -114,15 +114,8 @@ class _chattingpageState extends State<ChattingPage> {
                                   IconButton(
                                       onPressed: (){
                                         if(textController.text != ''){
-                                          setState(() {
-                                            message.add(textController.text);
-                                          });
-                                          context.read<UserData>().chattingRoom[widget.roomId-1]['text']
-                                              .add({
-                                            'name':context.read<UserData>().userInfo['name'],
-                                            'text':textController.text,
-                                            'time': DateFormat.Hm().format(now)
-                                              });
+                                          setState(() {});
+                                          context.read<UserData>().sendMessage(textController.text, widget.roomId, DateFormat.Hm().format(now));
                                           textController.clear();
                                         }
                                       },

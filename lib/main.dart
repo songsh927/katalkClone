@@ -5,6 +5,7 @@ import 'chat.dart';
 import 'view.dart';
 import 'shop.dart';
 import 'setting.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:provider/provider.dart';
 import 'dart:convert';
@@ -24,61 +25,79 @@ void main() {
 
 class UserData extends ChangeNotifier{
 
-  join(name, phone, id, password){
+  join(name, phone, id, password) async{
     //서버로 보내서 회원가입 로직실행
+    http.Response res = await http.post(
+        Uri.parse('http://localhost:8080/auth/signup'),
+        headers: {"Content-type" : "application/json"},
+        body: jsonEncode({
+          'userName' : name,
+          'phone' : phone,
+          'userId' : id,
+          'userPassword' : password
+        })
+    );
+
+    if(res.statusCode ==201){
+      return true;
+    }
+
+
+
+
+
   }
 
   var userInfo = {
-    'id': 0,
-    'name' : '사용자',
+    'id': 4,
+    'name' : '송짬마',
     'phone' : '01098765432',
     'myId' : 'jjamma',
     'picture' : '',
     'isLogin' : false,
+    'token' : ''
   };
 
   login(id, password) async {
-    userInfo['isLogin'] = true;
-    return true;
+    http.Response res = await http.post(
+      Uri.parse('http://localhost:8080/auth/login'),
+      headers: {"Content-type" : "application/json"},
+      body: jsonEncode({
+        'userId':id,
+        'userPassword':password
+      })
+    );
+
+    if(res.statusCode == 200){
+      userInfo['isLogin'] = true;
+      return true;
+    }
   }
 
-  var friendList = [
-    {
-      'id' : 1,
-      'name' : '손흥민',
-      'phone' : '01012341234',
-      'friendId' : 'sonNo.7',
-      'picture' : '',
-    },
-    {
-      'id' : 2,
-      'name' : '박지성',
-      'phone' : '01012341234',
-      'friendId' : 'jspark',
-      'picture' : '',
-    },
-    {
-      'id' : 3,
-      'name' : '홍길동',
-      'phone' : '01012341234',
-      'friendId' : 'honggildong123',
-      'picture' : '',
-    },
-  ];
+  var friendList = [];
 
-  searchFriend(){
-    //친구찾기
+  searchFriend(phoneNum, name, userId) async{
+    http.Response res = await http.get(
+        Uri.parse('http://localhost:8080/user/find?userId=$userId'),
+        headers: {"Content-type" : "application/json"}
+    );
+
+    if(res.statusCode == 200){
+      return res.body;
+    }
   }
 
-  addFriendList(phoneNum, name, id, [profilePic]) {
-    //서버로 id와 전화번호 보내서 응답코드받기
+  addFriendList(phoneNum, name, userId) async{
+    var data = jsonDecode(await searchFriend(phoneNum, name, userId));
+
+    print(data);
 
     var friendData = {
-      'id' : friendList.length + 1,
-      'name' : name.toString(),
-      'phone' : phoneNum.toString(),
-      'friendId' : id.toString(),
-      'picture' : profilePic.toString(),
+      'id' : data['id'],
+      'name' : data['name'],
+      'phone' : data['phone'],
+      'userId' : data['userId'],
+      'picture' : data['picture'],
     };
 
     friendList.add(friendData);
@@ -97,29 +116,28 @@ class UserData extends ChangeNotifier{
         }
    */
 
-  List<Map<String, dynamic>>  chattingRoom = [
-    {
-      'roomId' : 1,
-      'roomName' : '홍길동',
-      'text' : []
-    },
-    {
-      'roomId' : 2,
-      'roomName' : '손흥민',
-      'text' : []
-    },
-    {
-      'roomId' : 3,
-      'roomName' : '박지성',
-      'text' : []
-    },
-  ];
+  List<Map<String, dynamic>>  chattingRoom = [];
 
+  sendMessage(text, roomId, time){
+    chattingRoom.forEach((room) {
+      if(room['roomId'] == roomId){
+        room['text'].add({
+          'name': userInfo['name'],
+          'text': text,
+          'time': time
+        });
+      }
+    });
+    notifyListeners();
+  }
 
+  receiveMessage(){
+
+  }
 
 
   addRoom(id){
-    //채팅방 중복검사 필수
+    /**채팅방 중복검사 추가할것*/
     var name;
 
     for(int i = 0; i < friendList.length ; i++){
@@ -140,7 +158,6 @@ class UserData extends ChangeNotifier{
 
   delRoom(roomId) {
     //채팅방 삭제
-    print(roomId);
     for(int i = 0 ; i < chattingRoom.length ; i++){
       if(roomId == chattingRoom[i]['roomId']){
         chattingRoom.removeAt(i);

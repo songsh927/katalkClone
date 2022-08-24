@@ -12,79 +12,84 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Katalk'),
-              Container(
-                margin: EdgeInsets.all(30),
-                width: double.infinity,
-                height: 300,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextField(
-                      controller: idController,
-                      maxLength: 20,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(8),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                        hintText: '아이디',
-                      ),
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.multiline,
-                      controller: pwController,
-                      decoration: InputDecoration(
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: Container(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Katalk'),
+                Container(
+                  margin: EdgeInsets.all(30),
+                  width: double.infinity,
+                  height: 300,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextField(
+                        controller: idController,
+                        maxLength: 20,
+                        decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(8),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)
+                            borderRadius: BorderRadius.circular(10)
                           ),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)
+                            borderRadius: BorderRadius.circular(10)
                           ),
-                        hintText: '비밀번호'
+                          hintText: '아이디',
+                        ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        OutlinedButton(
-                          onPressed: ()async{
-                            if(await context.read<UserData>().login(idController.text,pwController.text)){
-                              Navigator.push(context, MaterialPageRoute(builder: (c)=> MyApp()));
-                            }
-                          },
-                          child: Text('확인'),
-                          style: OutlinedButton.styleFrom(
-                            fixedSize: Size(90, 50)
-                          ),
+                      TextField(
+                        keyboardType: TextInputType.multiline,
+                        controller: pwController,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(8),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                          hintText: '비밀번호'
                         ),
-                        OutlinedButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (c) => JoinPage()));
-                          },
-                          child: Text('회원가입'),
-                          style: OutlinedButton.styleFrom(
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          OutlinedButton(
+                            onPressed: ()async{
+                              if(await context.read<UserData>().login(idController.text,pwController.text)){
+                                Navigator.push(context, MaterialPageRoute(builder: (c)=> MyApp()));
+                              }
+                            },
+                            child: Text('확인'),
+                            style: OutlinedButton.styleFrom(
                               fixedSize: Size(90, 50)
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
+                          OutlinedButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (c) => JoinPage()));
+                            },
+                            child: Text('회원가입'),
+                            style: OutlinedButton.styleFrom(
+                                fixedSize: Size(90, 50)
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+        ),
       ),
     );
   }

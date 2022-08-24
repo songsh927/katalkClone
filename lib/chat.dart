@@ -78,7 +78,9 @@ class _ChatState extends State<Chat> {
                       children: [
                         Text(context.watch<UserData>().chattingRoom[i]['roomName'].toString()),
                         Text(context.watch<UserData>().chattingRoom[i]['text'].length != 0 ?
-                        context.watch<UserData>().chattingRoom[i]['text'][0]['text'].toString() : ''),
+                        context.watch<UserData>().chattingRoom[i]['text']
+                        [context.watch<UserData>().chattingRoom[i]['text'].length-1]['text'].toString()
+                            : ''),
                       ],
                     )
                   ],
