@@ -38,14 +38,14 @@ class UserData extends ChangeNotifier{
         })
     );
 
+    if(res.statusCode == 400){
+      print(jsonDecode(res.body)['message']);
+
+    }
+
     if(res.statusCode ==201){
       return true;
     }
-
-
-
-
-
   }
 
   var userInfo = {
