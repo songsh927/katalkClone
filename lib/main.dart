@@ -43,16 +43,16 @@ class UserData extends ChangeNotifier{
 
     }
 
-    if(res.statusCode ==201){
+    if(res.statusCode == 201){
       return true;
     }
   }
 
   var userInfo = {
-    'id': 4,
-    'name' : '송짬마',
-    'phone' : '01098765432',
-    'myId' : 'jjamma',
+    'id': '',
+    'name' : '',
+    'phone' : '',
+    'myId' : '',
     'picture' : '',
     'isLogin' : false,
     'token' : ''
@@ -69,7 +69,13 @@ class UserData extends ChangeNotifier{
     );
 
     if(res.statusCode == 200){
+      userInfo['id'] = jsonDecode(res.body)['user']['id'];
+      userInfo['name'] = jsonDecode(res.body)['user']['name'];
+      userInfo['phone'] = jsonDecode(res.body)['user']['phone'];
+      userInfo['myId'] = jsonDecode(res.body)['user']['userId'];
+      userInfo['token'] = jsonDecode(res.body)['token'];
       userInfo['isLogin'] = true;
+      print(userInfo);
       return true;
     }
   }
@@ -92,15 +98,22 @@ class UserData extends ChangeNotifier{
 
     print(data);
 
-    var friendData = {
-      'id' : data['id'],
-      'name' : data['name'],
-      'phone' : data['phone'],
-      'userId' : data['userId'],
-      'picture' : data['picture'],
-    };
+    if(data){
+      var friendData = {
+        'id' : data['id'],
+        'name' : data['name'],
+        'phone' : data['phone'],
+        'userId' : data['userId'],
+        'picture' : data['picture'],
+      };
+      friendList.add(friendData);
 
-    friendList.add(friendData);
+      http.Response res = await http.post(
+          Uri.parse('http://localhost:8080/user/add?id=${data['id']}'),
+          headers: {"Content-type" : "application/json"},
+      );
+    }
+
     notifyListeners();
   }
 
