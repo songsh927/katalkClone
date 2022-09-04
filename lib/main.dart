@@ -25,6 +25,9 @@ void main() {
 
 class UserData extends ChangeNotifier{
 
+  List<Map<String, dynamic>>  chattingRoom = [];
+  var friendList = [];
+
   join(name, phone, id, password) async{
     //서버로 보내서 회원가입 로직실행
     http.Response res = await http.post(
@@ -69,6 +72,11 @@ class UserData extends ChangeNotifier{
     );
 
     if(res.statusCode == 200){
+
+      /**
+       * 기존 친구목록 랜더링
+       * */
+
       userInfo['id'] = jsonDecode(res.body)['user']['id'];
       userInfo['name'] = jsonDecode(res.body)['user']['name'];
       userInfo['phone'] = jsonDecode(res.body)['user']['phone'];
@@ -80,12 +88,14 @@ class UserData extends ChangeNotifier{
     }
   }
 
-  var friendList = [];
 
   searchFriend(phoneNum, name, userId) async{
     http.Response res = await http.get(
         Uri.parse('http://localhost:8080/user/find?userId=$userId'),
-        headers: {"Content-type" : "application/json"}
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : "Bearer ${userInfo['token']}"
+        }
     );
 
     if(res.statusCode == 200){
@@ -96,40 +106,36 @@ class UserData extends ChangeNotifier{
   addFriendList(phoneNum, name, userId) async{
     var data = jsonDecode(await searchFriend(phoneNum, name, userId));
 
-    print(data);
-
-    if(data){
-      var friendData = {
-        'id' : data['id'],
-        'name' : data['name'],
-        'phone' : data['phone'],
-        'userId' : data['userId'],
-        'picture' : data['picture'],
-      };
-      friendList.add(friendData);
-
+    if(data != null){
       http.Response res = await http.post(
-          Uri.parse('http://localhost:8080/user/add?id=${data['id']}'),
-          headers: {"Content-type" : "application/json"},
+        Uri.parse('http://localhost:8080/user/add?id=${data['id']}'),
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : "Bearer ${userInfo['token']}"
+        },
       );
-    }
 
-    notifyListeners();
+      if(res.statusCode ==201){
+        var friendData = {
+          'id' : data['id'],
+          'name' : data['name'],
+          'phone' : data['phone'],
+          'userId' : data['userId'],
+          'picture' : data['picture'],
+        };
+        friendList.add(friendData);
+        notifyListeners();
+      }
+    }
   }
 
   delFriend(){
     //친구삭제
     print(chattingRoom[1]['text'].length);
   }
-  /*
-  {
-          'name': '손흥민',
-          'text': 'asdf',
-          'time': DateTime.now()
-        }
-   */
 
-  List<Map<String, dynamic>>  chattingRoom = [];
+
+
 
   sendMessage(text, roomId, time){
     chattingRoom.forEach((room) {
@@ -150,13 +156,14 @@ class UserData extends ChangeNotifier{
 
 
   addRoom(id){
-    /**채팅방 중복검사 추가할것*/
+    /**
+     * 채팅방 중복검사 추가할것
+     * */
     var name;
 
     for(int i = 0; i < friendList.length ; i++){
       if(friendList[i]['id'] == id){
         name = friendList[i]['name'];
-        print(name);
       }
     }
 
@@ -201,6 +208,7 @@ class _MyAppState extends State<MyApp> {
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
           elevation: 10,
+
 
           onTap: (i){
             setState(() {
