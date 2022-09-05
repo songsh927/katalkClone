@@ -76,6 +76,10 @@ class UserData extends ChangeNotifier{
       /**
        * 기존 친구목록 랜더링
        * */
+      jsonDecode(res.body)['user']['friendId'].forEach((id){
+        searchFriendById(id);
+      });
+
 
       userInfo['id'] = jsonDecode(res.body)['user']['id'];
       userInfo['name'] = jsonDecode(res.body)['user']['name'];
@@ -83,13 +87,12 @@ class UserData extends ChangeNotifier{
       userInfo['myId'] = jsonDecode(res.body)['user']['userId'];
       userInfo['token'] = jsonDecode(res.body)['token'];
       userInfo['isLogin'] = true;
-      print(userInfo);
       return true;
     }
   }
 
 
-  searchFriend(phoneNum, name, userId) async{
+  searchFriendByUserId(phoneNum, name, userId) async{
     http.Response res = await http.get(
         Uri.parse('http://localhost:8080/user/find?userId=$userId'),
         headers: {
@@ -103,8 +106,22 @@ class UserData extends ChangeNotifier{
     }
   }
 
+  searchFriendById(id) async{
+    http.Response res = await http.get(
+        Uri.parse('http://localhost:8080/user/find?id=$id'),
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization" : "Bearer ${userInfo['token']}"
+        }
+    );
+
+    if(res.statusCode == 200){
+      addToList(jsonDecode(res.body));
+    }
+  }
+
   addFriendList(phoneNum, name, userId) async{
-    var data = jsonDecode(await searchFriend(phoneNum, name, userId));
+    var data = jsonDecode(await searchFriendByUserId(phoneNum, name, userId));
 
     if(data != null){
       http.Response res = await http.post(
@@ -116,17 +133,21 @@ class UserData extends ChangeNotifier{
       );
 
       if(res.statusCode ==201){
-        var friendData = {
-          'id' : data['id'],
-          'name' : data['name'],
-          'phone' : data['phone'],
-          'userId' : data['userId'],
-          'picture' : data['picture'],
-        };
-        friendList.add(friendData);
-        notifyListeners();
+        addToList(data);
       }
     }
+  }
+
+  addToList(data){
+    var friendData = {
+      'id' : data['id'].toString(),
+      'name' : data['name'],
+      'phone' : data['phone'],
+      'userId' : data['userId'],
+      'picture' : data['picture'],
+    };
+    friendList.add(friendData);
+    notifyListeners();
   }
 
   delFriend(){
