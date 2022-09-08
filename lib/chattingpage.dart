@@ -15,6 +15,13 @@ class _chattingpageState extends State<ChattingPage> {
   var textController = TextEditingController();
   var scroll = ScrollController();
   DateTime now = DateTime.now();
+  var roomData;
+
+  @override
+  void initState(){
+    super.initState();
+    roomData = context.read<UserData>().getRoomInfo(widget.roomId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +62,14 @@ class _chattingpageState extends State<ChattingPage> {
                 flex: 9,
                 fit: FlexFit.tight,
                 child: ListView.builder(
-                      itemCount: context.read<UserData>().chattingRoom[widget.roomId-1]['text'].length,//message.length ,
+                      itemCount: roomData['text'].length,
                       controller: scroll ,
                       itemBuilder: (c, i){
                         return Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(context.read<UserData>().chattingRoom[widget.roomId-1]['text'][i]['time'].toString(), style: TextStyle(fontSize: 12),),
+                              Text(roomData['text'][i]['time'].toString(), style: TextStyle(fontSize: 12),),
                               Container(
                                 decoration: BoxDecoration(
                                   color: Colors.amber,
@@ -71,7 +78,7 @@ class _chattingpageState extends State<ChattingPage> {
                                 height: 40,
                                 margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
                                 padding: EdgeInsets.all(10),
-                                child: Text(context.read<UserData>().chattingRoom[widget.roomId-1]['text'][i]['text'].toString()),
+                                child: Text(roomData['text'][i]['text'].toString()),
                               )
                             ],
                           );

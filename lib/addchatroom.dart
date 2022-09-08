@@ -36,13 +36,14 @@ class _AddChattingRoomState extends State<AddChattingRoom> {
         title: Text('대화상대 선택',style: TextStyle(color: Colors.black),),
         actions: [
           TextButton(
-              onPressed: (){
+              onPressed: () async{
                 if(count == 0){
                   Navigator.pop(context);
                 }else if(count == 1){
+                  var roomId = await context.read<UserData>().addRoom(context.read<UserData>().friendList[index]['id']);
                   Navigator.pop(context);
-                  context.read<UserData>().addRoom(context.read<UserData>().friendList[index]['id']);
-                  Navigator.push(context, MaterialPageRoute(builder: (c) => ChattingPage(roomId: context.read<UserData>().chattingRoom.length,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (c) => ChattingPage(roomId: roomId)));
+
                 }
               },
               child: Text('확인',style: TextStyle(fontSize: 14),)

@@ -25,7 +25,8 @@ void main() {
 
 class UserData extends ChangeNotifier{
 
-  List<Map<String, dynamic>>  chattingRoom = [];
+  //List<Map<String, dynamic>>  chattingRoom = [];
+  var chattingRoom = [];
   var friendList = [];
 
   join(name, phone, id, password) async{
@@ -73,9 +74,6 @@ class UserData extends ChangeNotifier{
 
     if(res.statusCode == 200){
 
-      /**
-       * 기존 친구목록 랜더링
-       * */
       jsonDecode(res.body)['user']['friendId'].forEach((id){
         searchFriendById(id);
       });
@@ -140,7 +138,7 @@ class UserData extends ChangeNotifier{
 
   addToList(data){
     var friendData = {
-      'id' : data['id'].toString(),
+      'id' : data['id'],
       'name' : data['name'],
       'phone' : data['phone'],
       'userId' : data['userId'],
@@ -176,25 +174,52 @@ class UserData extends ChangeNotifier{
   }
 
 
-  addRoom(id){
+  addRoom(id) async{
     /**
      * 채팅방 중복검사 추가할것
      * */
-    var name;
 
-    for(int i = 0; i < friendList.length ; i++){
-      if(friendList[i]['id'] == id){
-        name = friendList[i]['name'];
+    var name;
+    var roomId;
+
+    http.Response res = await http.post(
+      Uri.parse('http://localhost:8080/chat/joinRoom'),
+      headers: {
+        "Content-type" : "application/json",
+        "Authorization" : "Bearer ${userInfo['token']}"
+      },
+      body: jsonEncode({
+        'friendId': id,
+      })
+    );
+
+    if(res.statusCode == 201){
+      for(int i = 0; i < friendList.length ; i++){
+        if(friendList[i]['id'] == id){
+          name = friendList[i]['name'];
+        }
+      }
+
+      roomId = jsonDecode(res.body)['roomId'];
+
+      var addingRoomData = {
+        'roomId' : roomId,
+        'roomName' : name.toString(),
+        'text' : []
+      };
+      chattingRoom.add(addingRoomData);
+      notifyListeners();
+
+    }
+    return roomId;
+  }
+
+  getRoomInfo(roomId){
+    for (var room in chattingRoom) {
+      if(room['roomId'] == roomId){
+        return room;
       }
     }
-
-    var addingRoomData = {
-      'roomId' : chattingRoom.length + 1,
-      'roomName' : name.toString(),
-      'text' : []
-    };
-    chattingRoom.add(addingRoomData);
-    notifyListeners();
   }
 
   delRoom(roomId) {
