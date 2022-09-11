@@ -5,11 +5,12 @@ import 'chat.dart';
 import 'view.dart';
 import 'shop.dart';
 import 'setting.dart';
-import 'package:http/http.dart' as http;
 
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() {
   runApp(
@@ -21,6 +22,21 @@ void main() {
             home: UserData().userInfo['isLogin'] == false ? LoginPage() : MyApp()
           )
   ));
+}
+
+socketConnection(){
+  IO.Socket socket = IO.io('http://localhost:8080',<String, dynamic>{
+    "autoConnect": true,
+  });
+  socket.connect();
+  socket.onConnect((_){
+    print('socket connected');
+  });
+}
+
+@override
+void initState(){
+  socketConnection();
 }
 
 class UserData extends ChangeNotifier{
@@ -85,6 +101,7 @@ class UserData extends ChangeNotifier{
       userInfo['myId'] = jsonDecode(res.body)['user']['userId'];
       userInfo['token'] = jsonDecode(res.body)['token'];
       userInfo['isLogin'] = true;
+      socketConnection();
       return true;
     }
   }
@@ -157,6 +174,11 @@ class UserData extends ChangeNotifier{
 
 
   sendMessage(text, roomId, time){
+    /**
+     * socket.io 코드
+     * */
+
+
     chattingRoom.forEach((room) {
       if(room['roomId'] == roomId){
         room['text'].add({
@@ -245,6 +267,12 @@ class _MyAppState extends State<MyApp> {
   var tab = 0;
   static final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   socketConnection();
+  // }
+
   @override
   Widget build(BuildContext context) {
       return Scaffold(
@@ -305,11 +333,6 @@ class _MyAppState extends State<MyApp> {
   채팅 => shared preferences
   사용자의 로그인 => shared preferences
 
-  ====DB====
-  - 사용자 정보 테이블
-  - 사용자 친구 테이블
-  - 채팅방 정보 테이블
-  - 채팅 테이블
  */
 
 
