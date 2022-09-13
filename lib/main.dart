@@ -205,7 +205,7 @@ class UserData extends ChangeNotifier{
     var roomId;
 
     http.Response res = await http.post(
-      Uri.parse('http://localhost:8080/chat/joinRoom'),
+      Uri.parse('http://localhost:8080/chat/createRoom'),
       headers: {
         "Content-type" : "application/json",
         "Authorization" : "Bearer ${userInfo['token']}"
@@ -229,6 +229,9 @@ class UserData extends ChangeNotifier{
         'roomName' : name.toString(),
         'text' : []
       };
+
+
+
       chattingRoom.add(addingRoomData);
       notifyListeners();
 
