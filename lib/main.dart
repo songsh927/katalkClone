@@ -24,20 +24,18 @@ void main() {
   ));
 }
 
-socketConnection(){
-  IO.Socket socket = IO.io('http://localhost:8080',<String, dynamic>{
+late IO.Socket socket;
+
+void socketConnection(){
+  socket = IO.io('http://localhost:8080',<String, dynamic>{
+    "transports" : ['websocket'],
     "autoConnect": true,
   });
   socket.connect();
-  socket.onConnect((_){
-    print('socket connected');
-  });
+
 }
 
-@override
-void initState(){
-  socketConnection();
-}
+
 
 class UserData extends ChangeNotifier{
 
@@ -173,21 +171,27 @@ class UserData extends ChangeNotifier{
 
 
 
-  sendMessage(text, roomId, time){
+  sendMessage(text, roomId, time) async{
     /**
      * socket.io 코드
      * */
 
 
-    chattingRoom.forEach((room) {
+    var msgData = {
+      'roomId' : roomId,
+      'name': userInfo['name'],
+      'text': text,
+      'time': time
+    };
+
+    for (var room in chattingRoom) {
       if(room['roomId'] == roomId){
-        room['text'].add({
-          'name': userInfo['name'],
-          'text': text,
-          'time': time
-        });
+        room['text'].add(msgData);
       }
-    });
+    }
+
+    socket.emit('send',msgData);
+
     notifyListeners();
   }
 
@@ -230,6 +234,7 @@ class UserData extends ChangeNotifier{
         'text' : []
       };
 
+      socket.emit('roomId', {roomId});
 
 
       chattingRoom.add(addingRoomData);

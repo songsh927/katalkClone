@@ -63,7 +63,7 @@ class _chattingpageState extends State<ChattingPage> {
                 fit: FlexFit.tight,
                 child: ListView.builder(
                       itemCount: roomData['text'].length,
-                      controller: scroll ,
+                      controller: scroll,
                       itemBuilder: (c, i){
                         return Row(
                             mainAxisAlignment: MainAxisAlignment.end,
