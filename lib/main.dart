@@ -174,14 +174,10 @@ class UserData extends ChangeNotifier{
 
 
   sendMessage(text, roomId, time) async{
-    /**
-     * socket.io 코드
-     * */
-
 
     var msgData = {
       'roomId' : roomId,
-      'name': userInfo['name'],
+      'id': userInfo['id'],
       'text': text,
       'time': time
     };
@@ -197,12 +193,12 @@ class UserData extends ChangeNotifier{
 
   receiveMessage(){
     socket.on('rec', (data) {
-      if(data['name'] !=  userInfo['name']){
+      if(data['id'] !=  userInfo['id']){
         print('rec');
 
         var msgData = {
           'roomId': data['roomId'].toString(),
-          'name': data['name'],
+          'id': data['id'],
           'text': data['text'],
           'time': data['time']
         };

@@ -14,14 +14,18 @@ class ChattingPage extends StatefulWidget {
 class _chattingpageState extends State<ChattingPage> {
   var textController = TextEditingController();
   var scroll = ScrollController();
-  // DateTime now = DateTime.now();
   var roomData;
 
   @override
   void initState(){
     super.initState();
-    roomData = context.read<UserData>().getRoomInfo(widget.roomId);
-    //context.read<UserData>().receiveMessage(widget.roomId);
+    //roomData = context.read<UserData>().getRoomInfo(widget.roomId);
+  }
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    roomData = context.watch<UserData>().getRoomInfo(widget.roomId);
   }
 
   @override
@@ -66,7 +70,10 @@ class _chattingpageState extends State<ChattingPage> {
                       itemCount: roomData['text'].length,
                       controller: scroll,
                       itemBuilder: (c, i){
-                         if(true){
+                        /**
+                         *커스텀 위젯으로 뽑을 것
+                         * */
+                         if(roomData['text'][i]['id'] == context.read<UserData>().userInfo['id']){
                            return Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -77,14 +84,32 @@ class _chattingpageState extends State<ChattingPage> {
                                   color: Colors.amber,
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
                                 ),
-                                height: 40,
+                                height: 35,
                                 margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
                                 padding: EdgeInsets.all(10),
                                 child: Text(roomData['text'][i]['text'].toString()),
                               )
                             ],
                           );
-                        }
+                        }else{
+                           return Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             crossAxisAlignment: CrossAxisAlignment.end,
+                             children: [
+                               Container(
+                                 decoration: BoxDecoration(
+                                   color: Colors.amber,
+                                   borderRadius: BorderRadius.all(Radius.circular(10)),
+                                 ),
+                                 height: 40,
+                                 margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
+                                 padding: EdgeInsets.all(10),
+                                 child: Text(roomData['text'][i]['text'].toString()),
+                               ),
+                               Text(roomData['text'][i]['time'].toString(), style: TextStyle(fontSize: 12),),
+                             ],
+                           );
+                         }
                       }),
               ),
               Flexible(
