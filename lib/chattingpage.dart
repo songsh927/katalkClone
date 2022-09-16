@@ -14,13 +14,14 @@ class ChattingPage extends StatefulWidget {
 class _chattingpageState extends State<ChattingPage> {
   var textController = TextEditingController();
   var scroll = ScrollController();
-  DateTime now = DateTime.now();
+  // DateTime now = DateTime.now();
   var roomData;
 
   @override
   void initState(){
     super.initState();
     roomData = context.read<UserData>().getRoomInfo(widget.roomId);
+    //context.read<UserData>().receiveMessage(widget.roomId);
   }
 
   @override
@@ -65,7 +66,8 @@ class _chattingpageState extends State<ChattingPage> {
                       itemCount: roomData['text'].length,
                       controller: scroll,
                       itemBuilder: (c, i){
-                        return Row(
+                         if(true){
+                           return Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -82,6 +84,7 @@ class _chattingpageState extends State<ChattingPage> {
                               )
                             ],
                           );
+                        }
                       }),
               ),
               Flexible(
@@ -120,10 +123,13 @@ class _chattingpageState extends State<ChattingPage> {
 
                                   IconButton(
                                       onPressed: (){
+                                        DateTime now = DateTime.now();
                                         if(textController.text != ''){
-                                          setState(() {});
-                                          context.read<UserData>().sendMessage(textController.text, widget.roomId, DateFormat.Hm().format(now));
-                                          textController.clear();
+                                          setState(() {
+                                            context.read<UserData>().sendMessage(textController.text, widget.roomId, DateFormat.Hm().format(now));
+                                            textController.clear();
+                                          });
+
                                         }
                                       },
                                       icon: Icon(Icons.send))

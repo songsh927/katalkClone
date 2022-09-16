@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:katalk/login.dart';
 import 'home.dart';
 import 'chat.dart';
@@ -15,9 +16,9 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 void main() {
   runApp(
       MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (c) => UserData()),
-        ],
+          providers: [
+            ChangeNotifierProvider(create: (c) => UserData()),
+          ],
           child: MaterialApp(
             home: UserData().userInfo['isLogin'] == false ? LoginPage() : MyApp()
           )
@@ -39,6 +40,7 @@ void socketConnection(){
 
 class UserData extends ChangeNotifier{
 
+  DateTime now = DateTime.now();
   //List<Map<String, dynamic>>  chattingRoom = [];
   var chattingRoom = [];
   var friendList = [];
@@ -184,18 +186,38 @@ class UserData extends ChangeNotifier{
       'time': time
     };
 
-    for (var room in chattingRoom) {
+    for (Map room in chattingRoom) {
       if(room['roomId'] == roomId){
         room['text'].add(msgData);
+        socket.emit('send', msgData);
       }
     }
-
-    socket.emit('send',msgData);
-
     notifyListeners();
   }
 
   receiveMessage(){
+    socket.on('rec', (data) {
+      if(data['name'] !=  userInfo['name']){
+        print('rec');
+
+        var msgData = {
+          'roomId': data['roomId'].toString(),
+          'name': data['name'],
+          'text': data['text'],
+          'time': data['time']
+        };
+
+        for (var room in chattingRoom) {
+          if (room['roomId'] == data['roomId']) {
+            room['text'].add(msgData);
+          }
+        }
+        notifyListeners();
+      }
+    });
+  }
+
+  socketDisconnect(){
 
   }
 
@@ -234,8 +256,7 @@ class UserData extends ChangeNotifier{
         'text' : []
       };
 
-      socket.emit('roomId', {roomId});
-
+      socket.emit(roomId.toString(), {roomId});
 
       chattingRoom.add(addingRoomData);
       notifyListeners();
@@ -264,6 +285,8 @@ class UserData extends ChangeNotifier{
 
 }
 
+
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -275,11 +298,11 @@ class _MyAppState extends State<MyApp> {
   var tab = 0;
   static final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 
-  // @override
-  // void initState(){
-  //   super.initState();
-  //   socketConnection();
-  // }
+  @override
+  void initState(){
+    super.initState();
+    context.read<UserData>().receiveMessage();
+  }
 
   @override
   Widget build(BuildContext context) {
