@@ -98,10 +98,11 @@ class _chattingpageState extends State<ChattingPage> {
                              children: [
                                Container(
                                  decoration: BoxDecoration(
-                                   color: Colors.amber,
+                                   color: Colors.white,
                                    borderRadius: BorderRadius.all(Radius.circular(10)),
                                  ),
-                                 height: 40,
+                                 alignment: Alignment.center,
+                                 height: 35,
                                  margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
                                  padding: EdgeInsets.all(10),
                                  child: Text(roomData['text'][i]['text'].toString()),

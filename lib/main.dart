@@ -94,7 +94,6 @@ class UserData extends ChangeNotifier{
         searchFriendById(id);
       });
 
-
       userInfo['id'] = jsonDecode(res.body)['user']['id'];
       userInfo['name'] = jsonDecode(res.body)['user']['name'];
       userInfo['phone'] = jsonDecode(res.body)['user']['phone'];
@@ -194,7 +193,6 @@ class UserData extends ChangeNotifier{
   receiveMessage(){
     socket.on('rec', (data) {
       if(data['id'] !=  userInfo['id']){
-        print('rec');
 
         var msgData = {
           'roomId': data['roomId'].toString(),
@@ -212,11 +210,6 @@ class UserData extends ChangeNotifier{
       }
     });
   }
-
-  socketDisconnect(){
-
-  }
-
 
   addRoom(id) async{
     /**
@@ -261,6 +254,13 @@ class UserData extends ChangeNotifier{
     return roomId;
   }
 
+  getRooms(){
+    /**
+     * get rooms from server
+     * */
+
+  }
+
   getRoomInfo(roomId){
     for (var room in chattingRoom) {
       if(room['roomId'] == roomId){
@@ -270,7 +270,9 @@ class UserData extends ChangeNotifier{
   }
 
   delRoom(roomId) {
-    //채팅방 삭제
+    /**
+     * 서버로 삭제대상 채팅방 ID보내기
+     * */
     for(int i = 0 ; i < chattingRoom.length ; i++){
       if(roomId == chattingRoom[i]['roomId']){
         chattingRoom.removeAt(i);
