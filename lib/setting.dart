@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'main.dart';
+import 'login.dart';
 
 class Setting extends StatelessWidget {
   const Setting({Key? key}) : super(key: key);
@@ -65,7 +66,10 @@ class Setting extends StatelessWidget {
             alignment: Alignment.centerLeft,
             height: 50,
             child: GestureDetector(
-              onTap: (){},
+              onTap: (){
+                context.read<UserData>().logout();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => LoginPage()));
+              },
               child: Text('로그아웃'),
             ),
             decoration: BoxDecoration(

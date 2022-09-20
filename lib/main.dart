@@ -105,6 +105,14 @@ class UserData extends ChangeNotifier{
     }
   }
 
+  logout(){
+    friendList.clear();
+    userInfo['isLogin'] = false;
+    userInfo['token'] = '';
+    print(userInfo);
+
+  }
+
 
   searchFriendByUserId(phoneNum, name, userId) async{
     http.Response res = await http.get(
@@ -181,16 +189,27 @@ class UserData extends ChangeNotifier{
       'time': time
     };
 
-    for (Map room in chattingRoom) {
-      if(room['roomId'] == roomId){
-        room['text'].add(msgData);
-        socket.emit('send', msgData);
+    http.Response res = await http.post(
+      Uri.parse('http://localhost:8080/chat/msg'),
+      headers: {
+        "Content-type" : "application/json",
+      },
+      body: jsonEncode(msgData),
+    );
+
+    if(res.statusCode == 201){
+      for (Map room in chattingRoom) {
+        if(room['roomId'] == roomId){
+          room['text'].add(msgData);
+          socket.emit('send', msgData);
+        }
       }
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   receiveMessage(){
+
     socket.on('rec', (data) {
       if(data['id'] !=  userInfo['id']){
 
@@ -245,7 +264,7 @@ class UserData extends ChangeNotifier{
         'text' : []
       };
 
-      socket.emit(roomId.toString(), {roomId});
+      socket.emit('roomId', {roomId});
 
       chattingRoom.add(addingRoomData);
       notifyListeners();
