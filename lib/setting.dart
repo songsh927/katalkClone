@@ -49,9 +49,10 @@ class _SettingState extends State<Setting> {
                             maxWidth: 1024
                         );
                         if(image != null){
-                          context.read<UserData>().profileUpdate(userProfile);
+
                           setState((){
                             userProfile = File(image.path);
+                            context.read<UserData>().profileUpdate(image.path);
                             context.read<UserData>().userInfo['profile'] = userProfile;
                           });
                         }

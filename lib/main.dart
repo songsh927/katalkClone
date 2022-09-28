@@ -180,13 +180,20 @@ class UserData extends ChangeNotifier{
   }
 
   profileUpdate(userProfileImg) async{
-    http.Response res = await http.post(
-      Uri.parse('http://localhost:8080/user/profile'),
-      headers: {
-        "Content-type" : "multipart/form-data",
-      },
-      body: {'img': userProfileImg},
+
+    var formData = FormData.fromMap({
+      'img': await MultipartFile.fromFile(userProfileImg)
+    });
+    var dio = Dio();
+
+    //dio.options.contentType = 'multipart/form-data';
+    dio.options.headers =  {"Authorization" : "Bearer ${userInfo['token']}"};
+
+    final res = await dio.post(
+        'http://localhost:8080/user/profile',
+        data: formData
     );
+    print(res);
 
   }
 
