@@ -59,6 +59,15 @@ class Home extends StatelessWidget {
                     margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     height: i == 0 ? 60 : 40,
                     width: i == 0 ? 60 : 40,
+                    // child: ClipRRect(
+                    //   borderRadius: BorderRadius.all(Radius.circular(20)),
+                    //   child: AspectRatio(
+                    //     aspectRatio: 1/1,
+                    //     child: i == 0 ?
+                    //     Image.file(context.read<UserData>().userInfo['profile'],fit: BoxFit.cover,)
+                    //         :Image.file(context.watch<UserData>().friendList[i-1]['profile'], fit: BoxFit.cover,),
+                    //   ),
+                    // ),
                   ),
                   Text(i == 0 ?
                   context.watch<UserData>().userInfo['name'].toString()

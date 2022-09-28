@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:dio/dio.dart';
 
 void main() {
   runApp(
@@ -73,7 +74,7 @@ class UserData extends ChangeNotifier{
     'name' : '',
     'phone' : '',
     'myId' : '',
-    'picture' : '',
+    'profile' : '',
     'isLogin' : false,
     'token' : ''
   };
@@ -98,6 +99,7 @@ class UserData extends ChangeNotifier{
       userInfo['name'] = jsonDecode(res.body)['user']['name'];
       userInfo['phone'] = jsonDecode(res.body)['user']['phone'];
       userInfo['myId'] = jsonDecode(res.body)['user']['userId'];
+      userInfo['profile'] = jsonDecode(res.body)['user']['profile'];
       userInfo['token'] = jsonDecode(res.body)['token'];
       userInfo['isLogin'] = true;
       socketConnection();
@@ -177,7 +179,16 @@ class UserData extends ChangeNotifier{
     print(chattingRoom[1]['text'].length);
   }
 
+  profileUpdate(userProfileImg) async{
+    http.Response res = await http.post(
+      Uri.parse('http://localhost:8080/user/profile'),
+      headers: {
+        "Content-type" : "multipart/form-data",
+      },
+      body: {'img': userProfileImg},
+    );
 
+  }
 
 
   sendMessage(text, roomId, time) async{
