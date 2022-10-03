@@ -74,7 +74,7 @@ class UserData extends ChangeNotifier{
     'name' : '',
     'phone' : '',
     'myId' : '',
-    'profile' : '',
+    'profile' : 'BasicProfile.png',
     'isLogin' : false,
     'token' : ''
   };
@@ -99,12 +99,13 @@ class UserData extends ChangeNotifier{
       userInfo['name'] = jsonDecode(res.body)['user']['name'];
       userInfo['phone'] = jsonDecode(res.body)['user']['phone'];
       userInfo['myId'] = jsonDecode(res.body)['user']['userId'];
-      userInfo['profile'] = jsonDecode(res.body)['user']['profile'];
+      //userInfo['profile'] = jsonDecode(res.body)['user']['profile'];
       userInfo['token'] = jsonDecode(res.body)['token'];
       userInfo['isLogin'] = true;
       socketConnection();
       return true;
     }
+    print(userInfo);
   }
 
   logout(){
@@ -186,14 +187,13 @@ class UserData extends ChangeNotifier{
     });
     var dio = Dio();
 
-    //dio.options.contentType = 'multipart/form-data';
     dio.options.headers =  {"Authorization" : "Bearer ${userInfo['token']}"};
 
     final res = await dio.post(
         'http://localhost:8080/user/profile',
         data: formData
     );
-    print(res);
+    print(userInfo);
 
   }
 

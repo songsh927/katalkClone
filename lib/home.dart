@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:katalk/profilepage.dart';
 import 'package:provider/provider.dart';
@@ -44,39 +46,86 @@ class Home extends StatelessWidget {
                 MaterialPageRoute(builder: (c) => profilepage(friendId : i)),
               );
             },
-            child: Container(
-              color: Colors.white,
-              width: double.infinity,
-              margin: EdgeInsets.fromLTRB(2, 3, 2, 3),
-              height: i == 0 ? 75 : 50,
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.all(Radius.circular(i == 0 ? 25 : 17)),
-                    ),
-                    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    height: i == 0 ? 60 : 40,
-                    width: i == 0 ? 60 : 40,
-                    // child: ClipRRect(
-                    //   borderRadius: BorderRadius.all(Radius.circular(20)),
-                    //   child: AspectRatio(
-                    //     aspectRatio: 1/1,
-                    //     child: i == 0 ?
-                    //     Image.file(context.read<UserData>().userInfo['profile'],fit: BoxFit.cover,)
-                    //         :Image.file(context.watch<UserData>().friendList[i-1]['profile'], fit: BoxFit.cover,),
-                    //   ),
-                    // ),
-                  ),
-                  Text(i == 0 ?
-                  context.watch<UserData>().userInfo['name'].toString()
-                      :context.watch<UserData>().friendList[i-1]['name'].toString())
-                ],
-              ),
-            ),
+            child: i == 0 ?
+            UserProfileTile(img : context.read<UserData>().userInfo['profile']) :
+            ListProfileTile(listIndex: i)
           );
       }),
     );
   }
 }
+
+class UserProfileTile extends StatelessWidget {
+  UserProfileTile({Key? key, this.img}) : super(key: key);
+  final img;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      margin: EdgeInsets.fromLTRB(2, 3, 2, 3),
+      height: 75,
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+            ),
+            margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            height: 60,
+            width: 60,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              child: AspectRatio(
+                aspectRatio: 1/1,
+                child: Image.asset(img, fit: BoxFit.cover,),
+              ),
+            ),
+          ),
+          Text(context.watch<UserData>().userInfo['name'].toString())
+        ],
+      ),
+    );
+  }
+}
+
+class ListProfileTile extends StatelessWidget {
+  const ListProfileTile({Key? key, this.listIndex}) : super(key: key);
+  final listIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      margin: EdgeInsets.fromLTRB(2, 3, 2, 3),
+      height: 50,
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.all(Radius.circular(17)),
+            ),
+            margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            height: 40,
+            width: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              child: AspectRatio(
+                aspectRatio: 1/1,
+                //child: Image.Network(),
+              ),
+            ),
+          ),
+          Text(context.watch<UserData>().friendList[listIndex-1]['name'].toString())
+        ],
+      ),
+    );
+  }
+}
+
+
+
